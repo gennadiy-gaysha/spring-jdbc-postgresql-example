@@ -91,14 +91,26 @@ spring.sql.init.mode=always
 - Using **Docker** for local database setup  
 - Configuring **Spring Boot** database properties
 
-## Future Improvements
-
-- Use `JdbcTemplate` with prepared statements.
-- Add custom exception handling.
-- Migrate to Spring Data JPA for more advanced CRUD operations.
-
----
-
 # Conclusion
+
+** Quick explanation of the flow: **
+
+| Step                     | Description                                                                     |
+|--------------------------|---------------------------------------------------------------------------------|
+| Client                   | Sends an HTTP request (GET, POST, etc.) to your Spring Boot app.                |
+| Tomcat                   | Embedded in Spring Boot — accepts the HTTP request and passes it into your app. |
+| Spring Boot Application  | Your code handles the request (controllers, services, etc.).                    |
+| Spring JDBC Layer        | If needed, your app talks to the database using JdbcTemplate, etc.              |
+| DataSource → JDBC Driver | Opens a real network connection to PostgreSQL using JDBC.                       |
+| PostgreSQL               | Processes the query (e.g., SELECT * FROM widgets), sends back results.          |
+| Back to Client           | Spring Boot processes results, Tomcat returns an HTTP response to the client.   |
+
+✅ Important points:
+
+Tomcat is only for HTTP request/response handling.
+
+Spring JDBC handles DB connections separately via JDBC.
+
+PostgreSQL is an external server accessed over TCP/IP.
 
 This project is a lightweight demonstration of connecting a **Spring Boot** application to a **PostgreSQL** database using **Spring JDBC** for simple data retrieval and logging.
